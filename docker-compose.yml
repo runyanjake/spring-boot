@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  tomcat:
+    image: spring-boot-template:latest 
+    restart: always
+    ports:
+      - 7777:8080
+
