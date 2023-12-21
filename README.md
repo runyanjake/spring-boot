@@ -31,3 +31,47 @@ Large command to do everything after a change to the code:
 
 Rebuild and test by curling `curl -vvv -X GET localhost:7777/helloworld`
 
+3. I'm using SLF4J as a logging abstraction so I can change the underlying logging framework if I want to without a whole lot of issues. Underneath SLF4J is Log4J. 
+
+Add the SLF4J dependency
+```
+<properties>
+    <slf4j.version>2.0.9</slf4j.version>
+</properties>
+...
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>${slf4j.version}</version>
+</dependency>
+```
+the Log4J dependencies
+```
+<properties>
+    <log4j.version>2.17.2</log4j.version>
+</properties>
+...
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>${log4j.version}</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <version>${log4j.version}</version>
+</dependency>
+```
+and the Log4J-SLF4J connector dependency
+```
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-slf4j-impl</artifactId>
+    <version>${log4j.version}</version>
+</dependency>
+```
+to the pom's dependency management. Build again to make sure there aren't multiple bindings by mistake. 
+
+Test by running the above hello world curl again. 
+
+
