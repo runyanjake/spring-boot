@@ -25,7 +25,7 @@ Test the actuator endpoint at custom endpoint 7777 with `curl -vvv -X GET localh
 
 Large command to do everything after a change to the code:
 
-`mvn package && rm target/ROOT.war && mv target/template-0.0.1-SNAPSHOT.war target/ROOT.war && docker stop spring-boot_tomcat_1 && docker system prune && docker build -t spring-boot-template . && docker-compose up -d`
+`mvn clean package && docker stop spring-boot_tomcat_1 && docker system prune && docker build -t spring-boot-template . && docker-compose up -d`
 
 2. Add custom hello world endpoint `/com/base/template/endpoint/HelloWorldEndpoint.java`
 
