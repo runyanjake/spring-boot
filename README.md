@@ -120,19 +120,9 @@ Generate a service account key, following https://developers.google.com/workspac
 
 Generate your credentials file. To do that, in GCP go to Apis & Services > Credentials to generate it. Store it in a credentials file, for me that's src/main/resources/key.json.
 
-Reference the credentials file in your pom's build section so it can be used to configure things during tests.
+In Spring Cloud, we can set the location of the credentials file in application.properties:
 ```
+spring.cloud.gcp.credentials.location=classpath:key.json
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<environmentVariables>
-						<GOOGLE_APPLICATION_CREDENTIALS>${project.basedir}/src/main/resources/key.json</GOOGLE_APPLICATION_CREDENTIALS>
-					</environmentVariables>
-				</configuration>
-			</plugin>
 ```
-
-
 

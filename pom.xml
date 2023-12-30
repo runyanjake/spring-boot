@@ -101,11 +101,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<environmentVariables>
-						<GOOGLE_APPLICATION_CREDENTIALS>${project.basedir}/src/main/resources/key.json</GOOGLE_APPLICATION_CREDENTIALS>
-					</environmentVariables>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
