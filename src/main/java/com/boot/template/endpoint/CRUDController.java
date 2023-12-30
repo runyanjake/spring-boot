@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import com.boot.template.database.FirestoreDao;
 import com.boot.template.database.TestDTO;
 
-import jakarta.websocket.server.PathParam;
-
 @RestController
 public class CRUDController {
     final static Logger logger = LoggerFactory.getLogger(CRUDController.class);

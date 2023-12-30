@@ -118,7 +118,7 @@ Create a new project in GCP or use an existing one. Make sure there's a service 
 
 Generate a service account key, following https://developers.google.com/workspace/guides/create-credentials
 
-Generate your credentials file. To do that, in GCP go to Apis & Services > Credentials to generate it. Store it in a credentials file, for me that's src/main/resources/gcp/credentials.json.
+Generate your credentials file. To do that, in GCP go to Apis & Services > Credentials to generate it. Store it in a credentials file, for me that's src/main/resources/key.json.
 
 Reference the credentials file in your pom's build section so it can be used to configure things during tests.
 ```
@@ -128,7 +128,7 @@ Reference the credentials file in your pom's build section so it can be used to 
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<environmentVariables>
-						<GOOGLE_APPLICATION_CREDENTIALS>${project.basedir}/src/main/resources/gcp/credentials.json</GOOGLE_APPLICATION_CREDENTIALS>
+						<GOOGLE_APPLICATION_CREDENTIALS>${project.basedir}/src/main/resources/key.json</GOOGLE_APPLICATION_CREDENTIALS>
 					</environmentVariables>
 				</configuration>
 			</plugin>

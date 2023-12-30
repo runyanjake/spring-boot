@@ -4,5 +4,5 @@
 
 src/.DS_Store
 src/main/.DS_Store
-src/main/resources/gcp/credentials.json
+src/main/resources/key.json
 target/
