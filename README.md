@@ -126,3 +126,18 @@ spring.cloud.gcp.credentials.location=classpath:key.json
 
 ```
 
+Example Curls (from the same maching running the project container) using the CrudController which pushes data to a "TestDTOs" table on the default Firestore instance for the project:
+
+`curl -vvv -X POST -H "Content-Type: application/json" -d '{"name":"myName", "value1":"myValue1", "value2":"myValue2"}' localhost:7777/create`
+
+``
+
+``
+
+``
+
+6. Configure Prometheus Metrics
+
+I'm begrudgingly using Micrometer for my Prometheus metrics, since it seems popular.
+
+

@@ -27,14 +27,14 @@ public class CRUDController {
     
 	@GetMapping(value="/read/{name}", produces = "application/json")
 	@ResponseBody
-	public TestDTO read(@RequestParam String name) {
+	public TestDTO read(@PathVariable String name) {
 		logger.info("Received request to read {}.", name);
         return firestoreDao.read(name);
 	}
     
 	@PutMapping(value="/update/{name}", consumes = "application/json", produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<Object> create(@RequestBody TestDTO testDTO, @RequestParam String name) {
+	public ResponseEntity<Object> create(@RequestBody TestDTO testDTO, @PathVariable String name) {
 		logger.info("Received request to update {}.", name);
         if(firestoreDao.update(name, testDTO)) {
             return ResponseEntity.ok().build();
@@ -44,7 +44,7 @@ public class CRUDController {
     
 	@DeleteMapping(value="/delete/{name}", produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<Object> delete(@RequestParam String name) {
+	public ResponseEntity<Object> delete(@PathVariable String name) {
 		logger.info("Received request to delete {}.", name);
         if(firestoreDao.delete(name)) {
             return ResponseEntity.ok().build();
