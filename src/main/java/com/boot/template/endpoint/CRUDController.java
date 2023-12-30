@@ -4,13 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.boot.template.database.FirestoreDao;
 import com.boot.template.database.TestDTO;
 
@@ -23,7 +17,7 @@ public class CRUDController {
     @Autowired
     private FirestoreDao firestoreDao;
     
-	@RequestMapping(value="/create", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	@PostMapping(value="/create", consumes = "application/json", produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<Object> create(@RequestBody TestDTO testDTO) {
 		logger.info("Received request to create new TestDTO object.");
@@ -33,14 +27,14 @@ public class CRUDController {
 		return ResponseEntity.internalServerError().build();
 	}
     
-	@RequestMapping(value="/read/{name}", method = RequestMethod.GET, produces = "application/json")
+	@GetMapping(value="/read/{name}", produces = "application/json")
 	@ResponseBody
 	public TestDTO read(@RequestParam String name) {
 		logger.info("Received request to read {}.", name);
         return firestoreDao.read(name);
 	}
     
-	@RequestMapping(value="/update/{name}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+	@PutMapping(value="/update/{name}", consumes = "application/json", produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<Object> create(@RequestBody TestDTO testDTO, @RequestParam String name) {
 		logger.info("Received request to update {}.", name);
@@ -50,7 +44,7 @@ public class CRUDController {
 		return ResponseEntity.internalServerError().build();
 	}
     
-	@RequestMapping(value="/delete/{name}", method = RequestMethod.DELETE, produces = "application/json")
+	@DeleteMapping(value="/delete/{name}", produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<Object> delete(@RequestParam String name) {
 		logger.info("Received request to delete {}.", name);
