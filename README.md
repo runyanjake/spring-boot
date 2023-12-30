@@ -74,4 +74,65 @@ to the pom's dependency management. Build again to make sure there aren't multip
 
 Test by running the above hello world curl again. 
 
+4. Add Lombok
+
+Lombok is nice for code generation. Lots of IDEs can hide/show generated code as you want.
+
+```
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.30</version>
+    <scope>provided</scope>
+</dependency>
+
+```
+
+5. Configure GCP
+
+For Spring Boot, we have spring-cloud-gcp (https://spring.io/projects/spring-cloud-gcp/) to help us.
+
+Include the dependencyManagement configuration that will control all further GCP modules we use:
+```
+<dependencyManagement>
+    <dependencies>
+    <dependency>
+        <groupId>com.google.cloud</groupId>
+        <artifactId>spring-cloud-gcp-dependencies</artifactId>
+        <version>${gcp.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+    </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+and first we'll start by configuring Firestore, following this Spring Cloud documentation: https://cloud.spring.io/spring-cloud-static/spring-cloud-gcp/current/reference/html/#cloud-firestore-spring-boot-starter
+```
+<dependency>
+    <groupId>com.google.cloud</groupId>
+    <artifactId>spring-cloud-gcp-starter-data-firestore</artifactId>
+</dependency>
+```
+
+Create a new project in GCP or use an existing one. Make sure there's a service account created (IAM & Admin > Serivce Accounts > Create Service Account)
+
+Generate a service account key, following https://developers.google.com/workspace/guides/create-credentials
+
+Generate your credentials file. To do that, in GCP go to Apis & Services > Credentials to generate it. Store it in a credentials file, for me that's src/main/resources/gcp/credentials.json.
+
+Reference the credentials file in your pom's build section so it can be used to configure things during tests.
+```
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<environmentVariables>
+						<GOOGLE_APPLICATION_CREDENTIALS>${project.basedir}/src/main/resources/gcp/credentials.json</GOOGLE_APPLICATION_CREDENTIALS>
+					</environmentVariables>
+				</configuration>
+			</plugin>
+```
+
+
 

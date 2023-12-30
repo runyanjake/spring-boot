@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 public class HelloWorldController {
-	final static Logger logger = LoggerFactory.getLogger(HelloWorldController.class);	
+	final static Logger logger = LoggerFactory.getLogger(HelloWorldController.class);
 
 	@RequestMapping(value="/helloworld", method = RequestMethod.GET)
 	@ResponseBody
