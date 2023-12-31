@@ -1,4 +1,4 @@
-package com.boot.template.endpoint;
+package com.boot.template.metrics;
 
 import java.util.concurrent.atomic.AtomicLong;
 
