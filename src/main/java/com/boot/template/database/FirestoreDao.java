@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.boot.template.endpoint.CRUDMetrics;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -22,11 +23,18 @@ public class FirestoreDao {final static Logger logger = LoggerFactory.getLogger(
 
     @Autowired
     private Firestore firestore;
+	@Autowired
+	private CRUDMetrics metrics;
 
     public boolean create(TestDTO testDTO) {
         //Null check.
         if(testDTO == null) {
             logger.warn("Attempted to write null testDTO to db.");
+            return false;
+        }
+
+        if(exists(testDTO.name)) {
+            logger.info("Entry already exists for {}.", testDTO.name);
             return false;
         }
 
@@ -40,6 +48,9 @@ public class FirestoreDao {final static Logger logger = LoggerFactory.getLogger(
         try {
             WriteResult result = future.get().get(0);
             logger.info("Wrote to {} at time {}.", testDTO.name, result.getUpdateTime());
+            metrics.countUploadedObject();
+            metrics.incrementStoredObjectsCount();
+            metrics.recordSummaryValue(Math.random() * 50);
         } catch(InterruptedException | ExecutionException e) {
             logger.info("Could not write to {}.", testDTO.name);
             return false;
@@ -82,7 +93,7 @@ public class FirestoreDao {final static Logger logger = LoggerFactory.getLogger(
             return false;
         }
 
-        //Create if not exists.
+        //Fail if not exists
         TestDTO currentDTO = read(name);
         if(currentDTO == null) {
             return create(testDTO);
@@ -133,11 +144,36 @@ public class FirestoreDao {final static Logger logger = LoggerFactory.getLogger(
         try {
             WriteResult result = future.get().get(0);
             logger.info("Deleted at {} at time {}.", name, result.getUpdateTime());
+            metrics.decrementStoredObjectsCount();
         } catch(InterruptedException | ExecutionException e) {
             logger.info("Could not delete at {}.", name);
             return false;
         }
         
         return true;
+    }
+
+    public boolean exists(String name) {
+        //Null check.
+        if(name == null) {
+            logger.warn("Attempted to delete null name from db.");
+            return false;
+        }
+
+        DocumentReference docRef = firestore.collection(testCollectionName).document(name);
+
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        try {
+            DocumentSnapshot document = future.get();
+            if(document.exists()) {
+                logger.info("Confirmed existance of document {}.", name);
+                return true;
+            } else {
+                return false;
+            }
+        } catch( ExecutionException | InterruptedException e) {
+            logger.error("Could not confirm existance of document {}.", name, e);
+            return false;
+        }
     }
 }

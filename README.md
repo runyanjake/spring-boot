@@ -149,12 +149,23 @@ Add the dependencies to pom (actuator done earlier):
     <artifactId>micrometer-registry-prometheus</artifactId>
     <scope>runtime</scope>
 </dependency>
-
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
 ```
+`spring-boot-starter-aop` is specifically for using Micrometer Timers.
 
 Expose a prometheus endpoint via actuator. Set this property:
 ```
 management.endpoints.web.exposure.include=health,info,prometheus
 ```
+
+Confirm the new endpoint is available under actuator:
+```
+curl -vvv -X GET localhost:7777/actuator/prometheus
+```
+
+Write some custom metrics (Example is CRUDMetrics.java, which exposes metrics in the CrudController endpoints.) And make sure they show up in the prometheus output.
 
 
