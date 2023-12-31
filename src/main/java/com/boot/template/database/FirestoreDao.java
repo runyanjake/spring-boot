@@ -118,13 +118,17 @@ public class FirestoreDao {final static Logger logger = LoggerFactory.getLogger(
         ApiFuture<List<WriteResult>> future = batch.commit();
 
         try {
-            WriteResult result = future.get().get(0);
+            List<WriteResult> results = future.get();
+            if(results.size() == 0) {
+                logger.info("Did not update anything for {}.", testDTO.name);
+                return false;
+            }
+            WriteResult result = results.get(0);
             logger.info("Wrote to {} at time {}.", testDTO.name, result.getUpdateTime());
         } catch(InterruptedException | ExecutionException e) {
             logger.info("Could not write to {}.", testDTO.name);
             return false;
         }
-        
         return true;
     }
 
