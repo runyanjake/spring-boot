@@ -94,10 +94,11 @@ public class FirestoreDao {final static Logger logger = LoggerFactory.getLogger(
         }
 
         //Fail if not exists
-        TestDTO currentDTO = read(name);
-        if(currentDTO == null) {
-            return create(testDTO);
+        if(!exists(name)) {
+            return false;
         }
+
+        TestDTO currentDTO = read(name);
 
         //Else, update fields that are different.
         WriteBatch batch = firestore.batch();
