@@ -123,7 +123,6 @@ Generate your credentials file. To do that, in GCP go to Apis & Services > Crede
 In Spring Cloud, we can set the location of the credentials file in application.properties:
 ```
 spring.cloud.gcp.credentials.location=classpath:key.json
-
 ```
 
 Example Curls (from the same maching running the project container) using the CrudController which pushes data to a "TestDTOs" table on the default Firestore instance for the project:
@@ -138,6 +137,24 @@ Delete: `curl -vvv -X DELETE localhost:7777/delete/myName`
 
 6. Configure Prometheus Metrics
 
-I'm begrudgingly using Micrometer for my Prometheus metrics, since it seems popular.
+I'm begrudgingly using Micrometer for my Prometheus metrics, since it seems popular
+
+Following: https://www.tutorialworks.com/spring-boot-prometheus-micrometer/
+
+Add the dependencies to pom (actuator done earlier):
+
+```
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-registry-prometheus</artifactId>
+    <scope>runtime</scope>
+</dependency>
+
+```
+
+Expose a prometheus endpoint via actuator. Set this property:
+```
+management.endpoints.web.exposure.include=health,info,prometheus
+```
 
 
