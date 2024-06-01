@@ -2,6 +2,10 @@
 
 Simple Spring Boot project with dockerization to run a simple Tomcat webapp with some endpoints and useful framework for logging, metrics etc.
 
+### Mirroring to GitHub
+
+Follow `https://docs.gitea.com/usage/repo-mirror`
+
 ### Build from Scratch
 
 1. Use Spring Initializr (https://start.spring.io/) to generate a starter project. Make it a Maven project, get the Java version right, and select WAR packaging.
